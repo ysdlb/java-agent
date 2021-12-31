@@ -12,7 +12,7 @@ import java.security.ProtectionDomain;
 public class CustomFileTransformer implements ClassFileTransformer {
 
     public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
-        if (!"learn/agent/app/DemoService".equals(className)) return classfileBuffer;
+        if (!className.endsWith("DemoService")) return classfileBuffer;
         // idea premain 启动, 非 debug 模式下无脑 System.out 会报错, 所以正常启动模式下不要把这一句放最前面
         System.out.println("检测到加载 -> " + className);
         try {

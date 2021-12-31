@@ -60,7 +60,9 @@
                             <addClasspath>true</addClasspath>
                         </manifest>
                         <manifestEntries>
+                            <!-- -javaagent:[=] 启动 -->
                             <Premain-Class>learn.agent.demo.CustomAgent</Premain-Class>
+                            <!-- attach 启动 -->
                             <Agent-Class>learn.agent.demo.CustomAgent</Agent-Class>
                             <Can-Retransform-Classes>true</Can-Retransform-Classes>
                         </manifestEntries>

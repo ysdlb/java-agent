@@ -2,7 +2,7 @@
   <configuration default="false" name="DemoAttach" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="learn.agent.demo.attach.DemoAttach" />
     <module name="java-agent-app" />
-    <option name="PROGRAM_PARAMETERS" value="67477 $ProjectFileDir$/agent-lib/java-agent-demo-jar-with-dependencies.jar" />
+    <option name="PROGRAM_PARAMETERS" value="$ProjectFileDir$/agent-lib/java-agent-demo-jar-with-dependencies.jar" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="learn.agent.attach.*" />
