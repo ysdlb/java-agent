@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>java-agent-demo</artifactId>
+    <artifactId>java-probe-agent</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -22,21 +22,6 @@
 
     <build>
         <plugins>
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-jar-plugin</artifactId>-->
-<!--                <configuration>-->
-<!--                    <archive>-->
-<!--                        <manifest>-->
-<!--                            <addClasspath>true</addClasspath>-->
-<!--                        </manifest>-->
-<!--                        <manifestEntries>-->
-<!--                            <Premain-Class>learn.agent.demo.CustomAgent</Premain-Class>-->
-<!--                            <Can-Retransform-Classes>true</Can-Retransform-Classes>-->
-<!--                        </manifestEntries>-->
-<!--                    </archive>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -68,9 +53,9 @@
                         </manifest>
                         <manifestEntries>
                             <!-- -javaagent:[=] 启动 -->
-                            <Premain-Class>learn.agent.demo.CustomAgent</Premain-Class>
+                            <Premain-Class>learn.probe.agent.DemoAgent</Premain-Class>
                             <!-- attach 启动 -->
-                            <Agent-Class>learn.agent.demo.CustomAgent</Agent-Class>
+                            <Agent-Class>learn.probe.agent.DemoAgent</Agent-Class>
                             <Can-Retransform-Classes>true</Can-Retransform-Classes>
                         </manifestEntries>
                     </archive>

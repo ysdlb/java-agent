@@ -1,11 +1,14 @@
-package learn.agent.demo.attach;
+package learn.probe.util;
 
 import com.sun.tools.attach.VirtualMachine;
 
 import java.io.PrintStream;
 import java.util.Scanner;
 
-public class DemoAttach {
+/**
+ * 将一个 agent attach 到一个类上的工具方法
+ */
+public class AttachUtil {
 
     private static final String COLOR_1 = "\033[38;2;0;255;255m";
     private static final String COLOR_2 = "\033[38;2;255;0;255m";
@@ -14,7 +17,7 @@ public class DemoAttach {
 
     /**
      * {@link com.sun.tools.attach.VirtualMachine}
-     * 这个类代表一个JVM抽象，可以通过这个类找到目标JVM，并且将Agent挂载到目标JVM上。
+     * 这个类代表一个JVM抽象，可以通过这个类找到目标JVM，并且将 Agent 挂载到目标JVM上。
      */
     public static void main(String[] args) throws Exception{
         PrintStream printS = System.out;

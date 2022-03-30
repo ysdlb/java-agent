@@ -11,8 +11,8 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>java-agent-demo</module>
-        <module>java-agent-app</module>
+        <module>java-probe-app</module>
+        <module>java-probe-agent</module>
     </modules>
 
     <properties>

@@ -1,13 +1,13 @@
-package learn.agent.demo.app;
+package learn.probe.app;
 
-public class DemoService {
+public class MyService {
 
     /**
      * do something
      * @return work done
      */
     public String doSomething() {
-        System.out.println("in DemoService doSomething");
+        System.out.println("in MyService doSomething");
         return "work done!";
     }
 
