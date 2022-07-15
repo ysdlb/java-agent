@@ -43,6 +43,11 @@ public class MyApp {
     private static void threadPoolTest() {
         int size = 10;
         ExecutorService executorPools = Executors.newFixedThreadPool(size);
+//        try {
+//            Class.forName("learn.probe.agent.trace.RunnableWrapper");
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
         for (int i = 0; i < size/2; i++) {
             executorPools.submit(() -> {
                 log.info("in submit: {}", TraceManager.getTraceId());
