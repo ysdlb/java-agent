@@ -11,6 +11,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ThreadPoolExecutor;
 
 public class ThreadPoolTransformer implements ClassFileTransformer {
+    private final static String EXECUTE_METHOD_NAME = "execute";
     private final static String RUNNABLE_CLASS_NAME = "java.lang.Runnable";
     private final static String CALLABLE_CLASS_NAME = "java.util.concurrent.Callable";
     private final static String THREAD_POOL_EXECUTOR_CLASS_NAME = "java.util.concurrent.ThreadPoolExecutor";
@@ -60,17 +61,22 @@ public class ThreadPoolTransformer implements ClassFileTransformer {
             CtMethod[] methods = cl.getMethods();
             for (CtMethod method: methods) {
                 CtClass[] parameterTypes = method.getParameterTypes();
-                for (int i = 0; i < parameterTypes.length; i++) {
-                    CtClass parameterType = parameterTypes[i];
-                    if (RUNNABLE_CLASS_NAME.equals(parameterType.getName())) {
-                        System.out.printf("runnable: %s%n", method.getLongName());
-                        method.insertBefore(String.format("$%d = learn.probe.agent.trace.RunnableWrapper.wrap($%<d);", i+1));
-                    } else if (CALLABLE_CLASS_NAME.equals(parameterType.getName())) {
-                        System.out.printf("callable: %s%n", method.getLongName());
-                    }
+                if (EXECUTE_METHOD_NAME.equals(method.getName())
+                        && parameterTypes.length == 1 && RUNNABLE_CLASS_NAME.equals(parameterTypes[0].getName())) {
+                    method.insertBefore(String.format("$%d = learn.probe.agent.trace.RunnableWrapper.wrap($%<d);", 1));
                 }
+//                for (int i = 0; i < parameterTypes.length; i++) {
+//                    CtClass parameterType = parameterTypes[i];
+//                    if ( RUNNABLE_CLASS_NAME.equals(parameterType.getName())) {
+//                        System.out.printf("runnable: %s%n", method.getLongName());
+//                        method.insertBefore(String.format("$%d = learn.probe.agent.trace.RunnableWrapper.wrap($%<d);", i+1));
+//                    } else if (CALLABLE_CLASS_NAME.equals(parameterType.getName())) {
+//                        System.out.printf("callable: %s%n", method.getLongName());
+//                    }
+//                }
             }
-            System.out.println("完成" + THREAD_POOL_EXECUTOR_CLASS_NAME + "增强");
+            System.out.format("%s%s%s\n",
+                    "\033[38;5;116m", "完成 " + THREAD_POOL_EXECUTOR_CLASS_NAME + " 增强", "\033[0m");
             return cl.toBytecode();
         } catch (IOException | NotFoundException | CannotCompileException e) {
             e.printStackTrace();

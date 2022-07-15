@@ -1,6 +1,5 @@
 package learn.probe.app;
 
-import learn.probe.agent.trace.TraceManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,7 +8,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class MyApp {
-    private static final Logger log = LoggerFactory.getLogger(MyApp.class);
+    private static final Logger logger = LoggerFactory.getLogger(MyApp.class);
 
     public static void main(String[] args) {
         int number;
@@ -41,18 +40,22 @@ public class MyApp {
     }
 
     private static void threadPoolTest() {
-        int size = 10;
+        int size = 2;
         ExecutorService executorPools = Executors.newFixedThreadPool(size);
 //        try {
 //            Class.forName("learn.probe.agent.trace.RunnableWrapper");
 //        } catch (ClassNotFoundException e) {
 //            e.printStackTrace();
 //        }
-        for (int i = 0; i < size/2; i++) {
+        for (int i = 0; i < size; i++) {
+            String taskName = "taskName" + "-" + i;
             executorPools.submit(() -> {
-                log.info("in submit: {}", TraceManager.getTraceId());
+                logger.info("{} submit", taskName);
                 executorPools.submit(() -> {
-                    log.info("in child submit: {}", TraceManager.getTraceId());
+                    logger.info("{} child submit", taskName);
+                    executorPools.submit(() -> {
+                        logger.info("{} grandSon submit", taskName);
+                    });
                 });
             });
         }

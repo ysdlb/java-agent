@@ -1,15 +1,18 @@
 package learn.probe.agent.trace;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
+
 import java.util.Optional;
 import java.util.UUID;
-import java.util.logging.Logger;
 
 /**
  * 与 MDC 交互的 {@link TraceContext TraceContext} 管理器
  */
 public class TraceManager {
-    private final static Logger log = Logger.getLogger(TraceManager.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(TraceManager.class);
 
     public static final String TRACE_KEY = "x-transaction-id";
     private static final ThreadLocal<TraceContext> CONTEXT = new ThreadLocal<>();
@@ -17,7 +20,7 @@ public class TraceManager {
     public static void begin(TraceContext traceContext) {
         // todo traceContext 为 null 直接报错
         if (traceContext == null) {
-            System.out.println("no traceContext found");
+            logger.debug("no traceContext found");
             return;
         }
 //        if (traceContext.isFromCurrent()) {
@@ -31,11 +34,13 @@ public class TraceManager {
         if (subTraceAppend != null && !subTraceAppend.isEmpty()) {
             traceId = traceId + "-" + subTraceAppend;
         }
-        System.out.println("traceId: " + traceId);
+        logger.debug("traceId -> {}", traceId);
+        MDC.put(TRACE_KEY, traceId);
     }
 
     public static void end() {
         CONTEXT.remove();
+        MDC.remove(TRACE_KEY);
     }
 
     public static TraceContext createTraceContext(String traceId) {
@@ -67,7 +72,7 @@ public class TraceManager {
     public static TraceContext snapShot() {
         TraceContext traceContext = get();
         if (traceContext == null) {
-            System.out.println("traceContext is null, capture a snapShot failed");
+            logger.debug("traceContext is null, capture a snapShot failed");
             traceContext = createTraceContext();
         }
 

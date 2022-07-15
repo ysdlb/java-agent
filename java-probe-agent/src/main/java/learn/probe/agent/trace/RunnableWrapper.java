@@ -1,6 +1,11 @@
 package learn.probe.agent.trace;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class RunnableWrapper implements Runnable {
+    private static final Logger logger = LoggerFactory.getLogger(RunnableWrapper.class);
+
     private final Runnable runnable;
     private final TraceContext context;
 
@@ -12,7 +17,7 @@ public class RunnableWrapper implements Runnable {
     public static Runnable wrap(Runnable runnable) {
         TraceContext traceContext = TraceManager.snapShot();
         Runnable wrapRunnable = new RunnableWrapper(runnable, traceContext);
-        System.out.println("runnable wrap done");
+        logger.debug("runnable wrap done");
         return wrapRunnable;
     }
 
