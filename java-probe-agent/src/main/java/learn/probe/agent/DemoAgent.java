@@ -1,10 +1,15 @@
 package learn.probe.agent;
 
+import javassist.CtClass;
+
 import java.lang.instrument.Instrumentation;
 import java.lang.instrument.UnmodifiableClassException;
-import java.security.ProtectionDomain;
 
 public class DemoAgent {
+    static {
+        // "~/logs/dump" 这样的目录不认, 把它当文件名字使类
+        CtClass.debugDump = ".debugDump";
+    }
 
     /**
      * jvm 参数形式启动
@@ -14,6 +19,7 @@ public class DemoAgent {
         System.out.format("%s%s:%s%s -> agentmain start\n",
                 "\033[38;5;118m", thread.getThreadGroup().getName(), thread.getName(), "\033[0m");
         inst.addTransformer(new DemoTransformer(), true);
+        inst.addTransformer(new ThreadPoolTransformer(), true);
     }
 
     /**

@@ -13,13 +13,10 @@ public class DemoTransformer implements ClassFileTransformer {
     private static final String TARGET_CLASS_V2 = "learn/probe/app/MyService";
     private static final String TARGET_METHOD = "doSomething";
 
-    {
-        // "~/logs/dump" 这样的目录不认, 把它当文件名字使类
-        CtClass.debugDump = "~/logs/dump";
-    }
 
+    @Override
     public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
-        if (!className.equals(TARGET_CLASS_V2)) return classfileBuffer;
+        if (!className.equals(TARGET_CLASS_V2)) return null;
         // idea premain 启动, 非 debug 模式下无脑 System.out 会报错, 所以正常启动模式下不要把这一句放最前面
         System.out.println("检测到加载 -> " + className);
 
