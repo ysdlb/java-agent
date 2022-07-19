@@ -34,6 +34,30 @@ public class ThreadPoolTest {
 
     @Test
     void completableFutureTest() {
-        CompletableFuture.supplyAsync()
+        for (int i = 0; i < 10; i++) {
+            String taskName = "taskName" + "-" + i;
+            CompletableFuture.supplyAsync(() -> {
+                logger.info("{} submit", taskName);
+                CompletableFuture.runAsync(() -> {
+                    logger.info("{} child submit", taskName);
+                });
+                return taskName + "R";
+            });
+        }
+    }
+
+    @Test
+    void completableFutureTestWithThreadPool() {
+        ExecutorService executorPools = Executors.newFixedThreadPool(5);
+        for (int i = 0; i < 10; i++) {
+            String taskName = "taskName" + "-" + i;
+            CompletableFuture.supplyAsync(() -> {
+                logger.info("{} submit", taskName);
+                CompletableFuture.runAsync(() -> {
+                    logger.info("{} child submit", taskName);
+                }, executorPools);
+                return taskName + "R";
+            }, executorPools);
+        }
     }
 }
