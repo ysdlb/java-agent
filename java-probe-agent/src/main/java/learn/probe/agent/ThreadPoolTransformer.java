@@ -63,7 +63,10 @@ public class ThreadPoolTransformer implements ClassFileTransformer {
                 CtClass[] parameterTypes = method.getParameterTypes();
                 if (EXECUTE_METHOD_NAME.equals(method.getName())
                         && parameterTypes.length == 1 && RUNNABLE_CLASS_NAME.equals(parameterTypes[0].getName())) {
-                    method.insertBefore(String.format("$%d = learn.probe.agent.trace.RunnableWrapper.wrap($%<d);", 1));
+                    String code = String.format("$%d = learn.probe.agent.trace.RunnableWrapper.wrap($%<d);", 1);
+                    method.insertBefore(code);
+                    System.out.format("%s%s%s\n",
+                            "\033[38;5;13m", code, "\033[0m");
                 }
 //                for (int i = 0; i < parameterTypes.length; i++) {
 //                    CtClass parameterType = parameterTypes[i];

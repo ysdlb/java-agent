@@ -15,15 +15,21 @@ public class RunnableWrapper implements Runnable {
     }
 
     public static Runnable wrap(Runnable runnable) {
+        System.out.format("%s%s%s\n",
+                "\033[38;5;9m", "runnable wrap start", "\033[0m");
         TraceContext traceContext = TraceManager.snapShot();
         Runnable wrapRunnable = new RunnableWrapper(runnable, traceContext);
-        logger.debug("runnable wrap done");
+        // logger.debug("runnable wrap done");
+        System.out.format("%s%s%s\n",
+                "\033[38;5;9m", "runnable wrap done", "\033[0m");
         return wrapRunnable;
     }
 
     @Override
     public void run() {
         TraceManager.begin(context);
+        System.out.format("%s%s%s\n",
+                "\033[38;5;226m", "runnable run: " + Thread.currentThread().getName(), "\033[0m");
         try {
             runnable.run();
         } finally {
