@@ -30,6 +30,8 @@ public class AttachUtil {
         String pid = String.valueOf(readPid());
         VirtualMachine vm = VirtualMachine.attach(pid);
         vm.loadAgent(agentJarPath);
+        // learn from net.bytebuddy.agent.Attacher#install
+        vm.detach();
     }
 
     private static int readPid() {
